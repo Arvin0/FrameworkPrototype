@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SYN.DBModel\SYN.DBModel.csproj" />
+    <ProjectReference Include="..\SYN.DependencyInjection\SYN.DependencyInjection.csproj" />
+    <ProjectReference Include="..\SYN.Model\SYN.Model.csproj" />
+    <ProjectReference Include="..\SYN.Repository\SYN.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

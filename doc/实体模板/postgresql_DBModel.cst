@@ -1,0 +1,138 @@
+﻿<%@ CodeTemplate Language="C#" TargetLanguage="C#" Description="Postgresql生成实体模板" Debug="True" %>
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Import Namespace="SchemaExplorer" %>
+<%@ Property Name="SourceTable" Type="SchemaExplorer.TableSchema" Category="Context" %>
+<%@ Property Name="NameSpace" Type="String" Category="参数" Description="命名空间" Default="" Optional="True"%>
+<%@ Import Namespace="System.Text.RegularExpressions" %>
+using System;
+using System.Collections.Generic;
+using System.Text;
+ 
+namespace <%=NameSpace%>
+{
+    
+    [Table("<%=SourceTable.Name %>",  Schema = "<%=GetSchemaName(SourceTable.FullName) %>")]
+    public class <%=GetClassName(SourceTable) %>DBModel
+    {
+        <% foreach (ColumnSchema column in SourceTable.Columns) {%>
+        /// <summary>
+        /// <%=GetDescription(column) %>
+        /// </summary>
+        <% if (column.IsPrimaryKeyMember) {%>
+        [Key]
+        <% }%>
+        [Column("<%=column.Name %>")]
+        public <%=GetCSharpVariableType(column) %> <%=GetPascalName(column) %>{ get; set; }
+        
+        <% }%>
+    }
+}
+<script runat="template">
+ 
+public string GetPascalName(ColumnSchema column)
+{
+    return GetPascalName(column.Name);
+}
+public string GetPascalName(string value)
+{
+    string result = "";
+    var columtParts = value.Split('_');
+    foreach(var part in columtParts){
+        result += part.Substring(0, 1).ToUpper() + part.Substring(1);
+    }
+    
+    return result;
+}
+public string GetClassName(TableSchema table)
+{
+    return GetPascalName(table.Name);
+}    
+public string GetSchemaName(string fullName)
+{
+    return fullName.Split('.')[0];
+}
+public string GetDescription(ColumnSchema column)
+{
+    return column.Description;
+}
+public string GetForeignKeyColumnType(ColumnSchema column)
+{        
+    return column.Table.ForeignKeys[0].PrimaryKeyTable.Name;
+}
+public string GetForeignKeyColumnName(ColumnSchema column)
+{    
+    if(column.Name.Substring(column.Name.Length-2).ToLower() == "id")
+    {
+        return column.Name.Substring(0,column.Name.Length-2);
+    }
+    else
+    {
+        return column.Name;
+    }
+}
+public string GetPrimaryKeyType(TableSchema table)
+{
+    if (table.PrimaryKey != null)
+    {
+        if (table.PrimaryKey.MemberColumns.Count == 1)
+        {
+            return GetCSharpVariableType(table.PrimaryKey.MemberColumns[0]);
+        }
+        else
+        {
+            throw new ApplicationException("This template will not work on primary keys with more than one member column.");
+        }
+    }
+    else
+    {
+        throw new ApplicationException("This template will only work on tables with a primary key.");
+    }
+}
+public string GetCSharpVariableType(ColumnSchema column)
+{
+    if (column.Name.EndsWith("TypeCode")) return column.Name;
+    
+    string type;
+    switch (column.DataType)
+    {
+        case DbType.AnsiString: type = "string";break;
+        case DbType.AnsiStringFixedLength: type = "string";break;
+        case DbType.Binary: type = "byte[]";break;
+        case DbType.Boolean: type = "bool";break;
+        case DbType.Byte: type = "byte";break;
+        case DbType.Currency: type = "decimal";break;
+        case DbType.Date: type = "DateTime";break;
+        case DbType.DateTime: type = "DateTime";break;
+        case DbType.Decimal: type = "decimal";break;
+        case DbType.Double: type = "double";break;
+        case DbType.Guid: type = "Guid";break;
+        case DbType.Int16: type = "short";break;
+        case DbType.Int32: type = "int";break;
+        case DbType.Int64: type = "long";break;
+        case DbType.Object: type = "object";break;
+        case DbType.SByte: type = "sbyte";break;
+        case DbType.Single: type = "float";break;
+        case DbType.String: type = "string";break;
+        case DbType.StringFixedLength: type = "string";break;
+        case DbType.Time: type = "TimeSpan";break;
+        case DbType.UInt16: type = "ushort";break;
+        case DbType.UInt32: type = "uint";break;
+        case DbType.UInt64: type = "ulong";break;
+        case DbType.VarNumeric: type = "decimal";break;
+        default:
+        {
+            type = "__UNKNOWN__" + column.NativeType;break;
+        }
+    }
+    
+    if(type != "string" && type != "byte[]" && column.AllowDBNull){
+        type += "?";
+    }
+    
+    return type;
+}    
+public override string GetFileName()
+{
+    return     GetClassName(SourceTable) + ".cs";
+}
+</script>

@@ -1,0 +1,36 @@
+{
+  "Serilog": {
+    "MinimumLevel": "Debug",
+    "WriteTo": [
+      {
+        "Name": "RollingFile",
+        "Args": {
+          "pathFormat": "C:/Logs/SYN-Debug-{Date}.log",
+          "restrictedToMinimumLevel": "Debug",
+          "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] {Message}{NewLine}{Exception}"
+        }
+      },
+      {
+        "Name": "RollingFile",
+        "Args": {
+          "pathFormat": "C:/Logs/SYN-Error-{Date}.log",
+          "restrictedToMinimumLevel": "Warning",
+          "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level}] [{SourceContext}] [{EventId}] {Message}{NewLine}{Exception}"
+        }
+      }
+    ]
+  },
+  "SerilogSQL": {
+    "MinimumLevel": "Debug",
+    "WriteTo": [
+      {
+        "Name": "RollingFile",
+        "Args": {
+          "pathFormat": "C:/Logs/SYN-SQL-{Date}.log",
+          "restrictedToMinimumLevel": "Information",
+          "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] {Message}{NewLine}{Exception}"
+        }
+      }
+    ]
+  } 
+}
