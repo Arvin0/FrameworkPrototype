@@ -25,7 +25,16 @@ namespace SYN.ApiCore.Middleware
             }
             catch (Exception e)
             {
-                await HandleExceptionAsync(context, context.Response.StatusCode, e.ToString());
+                try
+                {
+                    _logger.LogWarning(e.ToString());
+                }
+                catch (Exception)
+                {
+                    // Catch日志操作异常，以便于不影响主逻辑
+                }
+
+                await HandleExceptionAsync(context, context.Response.StatusCode, e.Message);
             }
             finally
             {
@@ -62,15 +71,6 @@ namespace SYN.ApiCore.Middleware
             var data = new {code = statusCode.ToString(), is_success = false, msg = msg};
             var result = JsonConvert.SerializeObject(new {data = data});
             context.Response.ContentType = "application/json;charset=utf-8";
-
-            try
-            {
-                _logger.LogWarning(msg);
-            }
-            catch (Exception)
-            {
-                // Catch日志操作异常，以便于不影响主逻辑
-            }
 
             return context.Response.WriteAsync(result);
         }
