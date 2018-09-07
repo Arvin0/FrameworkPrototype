@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SYN.Cache\SYN.Cache.csproj" />
     <ProjectReference Include="..\SYN.DBModel\SYN.DBModel.csproj" />
     <ProjectReference Include="..\SYN.DependencyInjection\SYN.DependencyInjection.csproj" />
     <ProjectReference Include="..\SYN.Model\SYN.Model.csproj" />

@@ -44,6 +44,9 @@ namespace SYN.ApiService
             // 设置配置信息
             services.SetConfiguration(Configuration);
 
+            // 添加缓存
+            services.AddCache();
+
             // 注册DbContext
             services.AddDbContexxt(GetType().Namespace);
 

@@ -38,5 +38,30 @@ namespace SYN.ApiService.Controllers
             var result = await _systemConfigurationService.Get(id);
             return Success(result);
         }
+
+        [HttpPost]
+        [SwaggerResponse((int)HttpStatusCode.OK, type: typeof(ApiResponse<bool>))]
+        public ApiResponse<bool> Add([FromBody]SystemDictionaryModel model)
+        {
+            var result = _systemConfigurationService.Add(model);
+            return Success(result);
+        }
+
+        [HttpPut("{id}")]
+        [SwaggerResponse((int)HttpStatusCode.OK, type: typeof(ApiResponse<bool>))]
+        public ApiResponse<bool> Update([FromBody]SystemDictionaryModel model)
+        {
+            var result = _systemConfigurationService.Edit(model);
+            return Success(result);
+        }
+
+        [HttpDelete("{id}")]
+        [SwaggerResponse((int)HttpStatusCode.OK, type: typeof(ApiResponse<bool>))]
+        public ApiResponse<bool> Delete(int id)
+        {
+            var result = _systemConfigurationService.Remove(id);
+            return Success(result);
+        }
+
     }
 }

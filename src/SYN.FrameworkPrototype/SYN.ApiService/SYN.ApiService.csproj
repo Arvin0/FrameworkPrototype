@@ -33,6 +33,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SYN.ApiCore\SYN.ApiCore.csproj" />
+    <ProjectReference Include="..\SYN.Cache\SYN.Cache.csproj" />
     <ProjectReference Include="..\SYN.Common\SYN.Core.csproj" />
     <ProjectReference Include="..\SYN.Repository\SYN.Repository.csproj" />
     <ProjectReference Include="..\SYN.Service\SYN.Service.csproj" />
