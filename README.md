@@ -12,6 +12,8 @@
 8. API返回结果格式化处理 (ApiResponse)
 9. 扩展方法创建DbContext (services.AddDbContexxt(GetType().Namespace);)
 10. API统一添加路由前缀 (options.UseCentralRoutePrefix)
+11. 添加Redis缓存(services.AddCache();)
+
 
 # 技术栈
 * 基础框架： .NET Core
@@ -19,5 +21,6 @@
 * 数据库：Postgresql
 * ORM: ef core + EFCoreUtil
 * log: Serilog
+* 缓存：Redis
 
 # 持续完善中......
