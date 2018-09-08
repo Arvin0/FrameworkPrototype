@@ -1,48 +1,58 @@
 {
   "Serilog": {
     "MinimumLevel": "Debug",
+    //将日志写入Seq
+    "Using": [ "Serilog.Sinks.Seq" ],
     "WriteTo": [
       {
-        "Name": "RollingFile",
-        "Args": {
-          "pathFormat": "C:/Logs/SYN-Debug-{Date}.log",
-          "restrictedToMinimumLevel": "Debug",
-          "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] {Message}{NewLine}{Exception}"
-        }
-      },
-      {
-        "Name": "RollingFile",
-        "Args": {
-          "pathFormat": "C:/Logs/SYN-Error-{Date}.log",
-          "restrictedToMinimumLevel": "Warning",
-          "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level}] [{SourceContext}] [{EventId}] {Message}{NewLine}{Exception}"
-        }
+        "Name": "Seq",
+        "Args": { "serverUrl": "http://172.16.0.214:5342" }
       }
-    ]
+    ],
+    "Properties": {
+      "Application": "SYN_TEST.Common"
+    }
+    //"WriteTo": [
+    //  {
+    //    "Name": "RollingFile",
+    //    "Args": {
+    //      "pathFormat": "C:/Logs/SYN-Debug-{Date}.log",
+    //      "restrictedToMinimumLevel": "Debug",
+    //      "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] {Message}{NewLine}{Exception}"
+    //    }
+    //  },
+    //  {
+    //    "Name": "RollingFile",
+    //    "Args": {
+    //      "pathFormat": "C:/Logs/SYN-Error-{Date}.log",
+    //      "restrictedToMinimumLevel": "Warning",
+    //      "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level}] [{SourceContext}] [{EventId}] {Message}{NewLine}{Exception}"
+    //    }
+    //  }
+    //]
   },
   "SerilogSQL": {
     "MinimumLevel": "Debug",
+    // 将日志写入Seq
+    "Using": [ "Serilog.Sinks.Seq" ],
     "WriteTo": [
       {
-        "Name": "RollingFile",
-        "Args": {
-          "pathFormat": "C:/Logs/SYN-SQL-{Date}.log",
-          "restrictedToMinimumLevel": "Information",
-          "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] {Message}{NewLine}{Exception}"
-        }
+        "Name": "Seq",
+        "Args": { "serverUrl": "http://localhost:5341" }
       }
-    ]
-
-    // 将日志写入Seq
-    //"Using": [ "Serilog.Sinks.Seq" ],
+    ],
+    "Properties": {
+      "Application": "SYN_TEST.SQL"
+    }
     //"WriteTo": [
     //  {
-    //    "Name": "Seq",
-    //    "Args": { "serverUrl": "http://172.16.0.214:5342" }
+    //    "Name": "RollingFile",
+    //    "Args": {
+    //      "pathFormat": "C:/Logs/SYN-SQL-{Date}.log",
+    //      "restrictedToMinimumLevel": "Information",
+    //      "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] {Message}{NewLine}{Exception}"
+    //    }
     //  }
-    //],
-    //"Properties": {
-    //  "Application": "SYN_TEST"
-    //}
+    //]
   } 
 }
