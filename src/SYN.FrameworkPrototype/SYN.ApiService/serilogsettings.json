@@ -6,7 +6,7 @@
     "WriteTo": [
       {
         "Name": "Seq",
-        "Args": { "serverUrl": "http://172.16.0.214:5342" }
+        "Args": { "serverUrl": "http://localhost:5341" }
       }
     ],
     "Properties": {
